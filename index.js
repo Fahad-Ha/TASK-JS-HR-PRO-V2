@@ -20,7 +20,7 @@ class Manager extends Employee {
     this.bonusPercentage = bonusPercentage;
   }
   salaryIncrease(increaseAmount) {
-    return (this.salary += increaseAmount);
+    this.salary += increaseAmount;
   }
   logManagerInfor(currentYear) {
     return `${this.bonusPercentage}\n since ${
@@ -31,23 +31,23 @@ class Manager extends Employee {
 
 let emploArray = employeesJSON.map(
   (employee) =>
-    (employee = new Employee(
+    new Employee(
       employee.name,
       employee.position,
       employee.yearJoined,
       employee.salary
-    ))
+    )
 );
 
 let mangArray = managersJSON.map(
   (manager) =>
-    (manager = new Manager(
+    new Manager(
       manager.name,
       manager.position,
       manager.yearJoined,
       manager.salary,
       manager.bonusPercentage
-    ))
+    )
 );
 
 // console.log(emploArray[0].idBadge());
@@ -56,18 +56,14 @@ let mangArray = managersJSON.map(
 console.log(mangArray[0].logManagerInfor(2023));
 
 // emploArray.forEach((employee) => console.log(employee.idBadge()));
-let superHeroes = [];
-emploArray.filter((employee) => {
-  if (employee.position === "Developer") {
-    superHeroes.push(employee);
-    return superHeroes;
-  }
-});
+let superHeroes = emploArray.filter(
+  (employee) => employee.position === "Developer"
+);
 // console.log(emploArray);
 
 // console.log(superHeroes);
 
-mangArray.map((manager) => {
+mangArray.forEach((manager) => {
   if (Math.abs(manager.yearJoined - 2023) > 11) {
     manager.salaryIncrease(1000);
   }
@@ -86,19 +82,29 @@ let lowestBonus = mangArray.find((manager) => manager.bonusPercentage == 0.1);
 let promotionCandidate = emploArray.find((employee) => employee.salary > 8000);
 // console.log(promotionCandidate);
 
-let highestSalary = 0;
-let mostPaidEmployee;
-emploArray.forEach((employee) => {
-  if (employee.salary > highestSalary) {
-    highestSalary = employee.salary;
-    return (mostPaidEmployee = employee);
-  }
-});
+// let highestSalary = 0;
+// let mostPaidEmployee;
+// emploArray.forEach((employee) => {
+//   if (employee.salary > highestSalary) {
+//     highestSalary = employee.salary;
+//     mostPaidEmployee = employee;
+//   }
+// });
+
+const mostPaidEmployee = emploArray.reduce(
+  (acc, crr) => (acc > crr.salary ? acc : crr.salary),
+  0
+);
+// const mostPaidEmployee = emploArray.reduce(
+//   (acc, crr) => (acc.salary > crr.salary ? acc.salary : crr.salary),
+//   emploArray[0]
+// );
 
 // console.log(mostPaidEmployee);
+
 let salaryArray = emploArray.map((employee) => employee.salary);
 console.log(salaryArray);
-let totalSalaries = salaryArray.reduce((sum, employee) => sum + employee);
+let totalSalaries = salaryArray.reduce((sum, employee) => sum + employee, 0);
 // console.log(totalSalaries);
 
 let employeesSorted = emploArray.sort((a, b) => a.salary - b.salary);
